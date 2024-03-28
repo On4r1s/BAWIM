@@ -1,78 +1,149 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='style.css') }}">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
     <title>Project Iris</title>
-  </head>
+</head>
 
-  <body>
-  <header>
+<body>
+<header>
     <h1 style="color: azure">Project: Iris</h1>
     <div><a href="/">sos</a></div>
     <div><a href="/">sas</a></div>
-  </header>
+</header>
 
-    <div class="my_menu">
-      <div class="container">
+<div class="my_menu">
+    <div class="container">
         <div class="left-menu">
-          <a href="/personalize"><button class="button_menu" type="button">Personalize Bot</button></a>
-          <a href="/settings"><button class="button_menu" type="button">Bot Settings</button></a>
-          <a href="/admin"><button class="button_menu" type="button">Admin Roles</button></a>
+            <a href="/personalize">
+                <button class="button_menu" type="button">Personalize Bot</button>
+            </a>
+            <a href="/commands">
+                <button class="button_menu" type="button">Bot Commands</button>
+            </a>
+            <a href="/settings">
+                <button class="button_menu" type="button">Bot Settings</button>
+            </a>
+            <a href="/admins">
+                <button class="button_menu" type="button">Admins</button>
+            </a>
         </div>
+        <script>
+            let stuff = document.getElementsByClassName("button_menu");
+            for (let i = 0 ; i < stuff.length; i++) {
+                stuff[i].addEventListener("mouseover", (e) => {
+                e.target.style.background = "#735b8f";});
+                stuff[i].addEventListener("mouseout", (e) => {
+                e.target.style.background = "cornflowerblue";});
+            }
+        </script>
         <div class="main-page">
-          {% if menu=='personalize' %}
-          <form action="/personalize">
-            <div class="image_input">
-              <img src="{{ url_for('static',filename=settings['avatar']) }}"
-                   alt="img" width="150px" height="150px" style="align-self: center; border-radius: 75px;">
-              <label class="custom-file-upload" for="img">Update Image</label>
-              <input type="file" id="img" name="img" accept="image/*">
-            </div>
-            <div class="input">
-              <label for="Name" style="grid-row: 1; grid-column: 1">Bot Name: </label>
-              <input type="text" style="grid-row: 1; grid-column: 2" id="Name" value="{{ settings['name'] }}"/>
-              <label for="Status" style="grid-row: 2; grid-column: 1">Status: </label>
-              <select name="pets" id="Status" style="grid-row: 2; grid-column: 2">
-                <option value="{{ settings['status'] }}">{{ status[settings['status']] }}</option>
-                {% for key, value in status.items() %}
-                {% if key != settings['status'] %}
-                <option value="{{ key }}">{{ value }}</option>
-                {% endif %}
-                {% endfor %}
-              </select>
-              <label for="Activity" style="grid-row: 3; grid-column: 1">Activity: </label>
-              <select name="pets" id="Activity" style="grid-row: 3; grid-column: 2">
-                <option value="{{ settings['activity'] }}">{{ settings['activity'].title() }}</option>
-                {% for value in activity %}
-                {% if value != settings['activity'] %}
-                <option value="{{ value }}">{{ value.title() }}</option>
-                {% endif %}
-                {% endfor %}
-              </select>
-              <label for="Activity text" style="grid-row: 4; grid-column: 1">Activity text: </label>
-              <input type="text" style="grid-row: 4; grid-column: 2" value="{{ settings['activity_text'] }}" id="Activity text"/>
-              <input type="submit">
-            </div>
-          </form>
-          {% elif menu=='settings' %}
-          <form action="/settings">
-            <table>
-              <tbody>
-                <tr><th>Language = {{ settings['settings']['lang'] }}</th></tr>
-                <tr><th>Prefix = {{ settings['settings']['prefix'] }}</th></tr></tbody>
-            </table>
-          </form>
-          {% elif menu=='admin_roles' %}
-          <form action="/settings">
-            <table>
-              <tbody>
-                <tr><th>Admin roles = {{ settings['admin_roles'] }}</th></tr>
-              </tbody>
-            </table>
-          </form>
-          {% endif %}
+
+            {% if menu=='personalize' %}
+                <form action="/personalize" method="post">
+                    <div class="image_input">
+                        <img src="{{ url_for('static',filename=settings['avatar']) }}"
+                             alt="img" width="150px" height="150px" style="align-self: center; border-radius: 75px;">
+                        <label class="custom-file-upload" for="img">Update Image</label>
+                        <input class="can_be_changed" type="file" id="img" name="img" accept="image/*">
+                    </div>
+                    <div class="input">
+                        <label for="Name" style="grid-row: 1; grid-column: 1">Bot Name: </label>
+                        <input class="can_be_changed" name="name" type="text" style="grid-row: 1; grid-column: 2" id="Name"
+                               value="{{ settings['name'] }}"/>
+                        <label for="Status" style="grid-row: 2; grid-column: 1">Status: </label>
+                        <select class="can_be_changed" name="status" id="Status" style="grid-row: 2; grid-column: 2">
+                            <option value="{{ settings['status'] }}">{{ status[settings['status']] }}</option>
+                            {% for key, value in status.items() %}
+                                {% if key != settings['status'] %}
+                                    <option value="{{ key }}">{{ value }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <label for="Activity" style="grid-row: 3; grid-column: 1">Activity: </label>
+                        <select class="can_be_changed" name="activity" id="Activity" style="grid-row: 3; grid-column: 2">
+                            <option value="{{ settings['activity'] }}">{{ settings['activity'].title() }}</option>
+                            {% for value in activity %}
+                                {% if value != settings['activity'] %}
+                                    <option value="{{ value }}">{{ value.title() }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <label for="act_text" style="grid-row: 4; grid-column: 1">Activity text: </label>
+                        <input class="can_be_changed" name="act_text" type="text" style="grid-row: 4; grid-column: 2" value="{{ settings['activity_text'] }}"
+                               id="act_text"/>
+                        <input type="submit" id="submit">
+                    </div>
+                </form>
+
+            {% elif menu=='commands' %}
+                <form action="/commands" method="post">
+                    <div class="input">
+                        {% for value in settings %}
+                            {% if settings[value].__len__() != 0 %}
+                                <b style="color: dodgerblue; font-size: large; grid-row: span; grid-column: 1">{{ value.title() }}:</b>
+                                {% for com in settings[value] %}
+                                    <label for="{{ com }}"
+                                           style="grid-row: span; grid-column: 1">{{ com.replace("_", " ").replace("command", "") }}: </label>
+                                    <label style="grid-row: span; grid-column: 2" class="switch">
+                                    {% if settings[value][com] == 1 %}
+                                        <input class="can_be_changed" name="{{ com }}" id="{{ com }}" style="grid-row: span; grid-column: 2" type="checkbox" checked>
+                                    {% else %}
+                                        <input class="can_be_changed" name="{{ com }}" id="{{ com }}" style="grid-row: span; grid-column: 2" type="checkbox">
+                                    {% endif %}
+                                        <span style="grid-row: span; grid-column: 2" class="slider round"></span>
+                                    </label>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                        <input type="submit" id="submit">
+                    </div>
+                </form>
+
+            {% elif menu=='settings' %}
+                <form action="/settings" method="post">
+                    <div class="input">
+                        <label for="lang" style="grid-row: 1; grid-column: 1">Language: </label>
+                        <select name="language" class="can_be_changed" id="lang" style="grid-row: 1; grid-column: 2">
+                            <option value="{{ settings['lang'] }}">{{ langs[settings['lang']] }}</option>
+                            {% for value in langs %}
+                                {% if value != settings['lang'] %}
+                                    <option value="{{ value }}">{{ langs[value] }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <label for="prefix" style="grid-row: 2; grid-column: 1">Prefix: </label>
+                        <input name="prefix" class="can_be_changed" type="text" style="grid-row: 2; grid-column: 2" id="prefix"
+                               value="{{ settings['prefix'] }}"/>
+                        <input type="submit" id="submit">
+                    </div>
+                </form>
+
+            {% elif menu=='admins' %}
+                <form action="/admins" method="post">
+                    <div class="input">
+                        <label for="admins" style="color: dodgerblue; font-size: large; grid-row: span; grid-column: 1">Admins:</label>
+                        <input name="ids" class="can_be_changed" type="text" style="grid-row: span; grid-column: 1" id="admins" value="{{ settings }}"/>
+                        <input type="submit" id="submit">
+                    </div>
+                </form>
+            {% endif %}
         </div>
-      </div>
+        <script>
+            const button = document.getElementById("submit");
+            button.addEventListener("mouseover", (e) => {
+                e.target.style.background = "#4e5057";
+            });
+            button.addEventListener("mouseout", (e) => {
+                e.target.style.background = "#36383f";
+            });
+            var listening = document.getElementsByClassName("can_be_changed");
+            for (let i = 0 ; i < listening.length; i++) {
+                listening[i].addEventListener("input", (e) => {
+                alert('get fucked moron L');});
+            }
+        </script>
     </div>
-  </body>
+</div>
+</body>
 </html>
