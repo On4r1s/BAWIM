@@ -27,7 +27,7 @@ select{
     color: azure;
 }
 
-input{
+input {
     border:none;
     outline:none;
     height:34px;
@@ -52,6 +52,7 @@ input[type="file"] {
     align-self: center;
     padding: 6px 12px;
     cursor: pointer;
+    border-radius:8px;
 }
 
 .my_menu {

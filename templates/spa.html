@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="{{ url_for('static',filename='css/style.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static',filename='favicon.png') }}" rel="icon" type="image/x-icon">
+    <title>SPA</title>
+</head>
+<body>
+<header>
+    <h1 style="color: azure">Project: Iris</h1>
+    <div><a href="/">sos</a></div>
+    <div><a href="/">sas</a></div>
+</header>
+<div class="my_menu">
+    <div class="container">
+        <div class="left-menu">
+            <a href="/personalize">
+                <button class="button_menu" type="button" id="/personalize" data-link>Personalize Bot</button>
+            </a>
+            <a href="/commands">
+                <button class="button_menu" type="button" id="/commands" data-link>Bot Commands</button>
+            </a>
+            <a href="/settings">
+                <button class="button_menu" type="button" id="/settings" data-link>Bot Settings</button>
+            </a>
+            <a href="/admins">
+                <button class="button_menu" type="button" id="/admins" data-link>Admins</button>
+            </a>
+        </div>
+        <div class="main-page">
+            <div id="main-page"></div>
+        </div>
+        <script>
+            let stuff = document.getElementsByClassName("button_menu");
+            for (let i = 0; i < stuff.length; i++) {
+                stuff[i].addEventListener("mouseover", (e) => {
+                    e.target.style.background = "#735b8f";
+                });
+                stuff[i].addEventListener("mouseout", (e) => {
+                    e.target.style.background = "cornflowerblue";
+                });
+            }
+        </script>
+    </div>
+</div>
+<script src="{{ url_for('static',filename='js/spa.js') }}" type="module"></script>
+</body>
+</html>
