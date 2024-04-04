@@ -35,5 +35,5 @@
 
   },
 
-  "admins": [359412965843140609]
+  "admins": {"359412965843140609": {"Role": "Owner", "InvitedBy": "Bot", "InviteDate": "2024-18-03"}}
 }

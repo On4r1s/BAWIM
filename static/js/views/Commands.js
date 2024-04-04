@@ -8,44 +8,54 @@ export default class extends AbstractView {
 
     async getHtml() {
         return `
-            <form action="/commands" method="post">
-                    <div class="input">
-                        {% for value in settings %}
-                            {% if settings[value].__len__() != 0 %}
-                                <b style="color: dodgerblue; font-size: large; grid-row: span; grid-column: 1">{{ value.title() }}:</b>
-                                {% for com in settings[value] %}
-                                    <label for="{{ com }}"
-                                           style="grid-row: span; grid-column: 1">{{ com.replace("_", " ").replace("command", "") }}: </label>
-                                    <label style="grid-row: span; grid-column: 2" class="switch">
-                                    {% if settings[value][com] == 1 %}
-                                        <input class="can_be_changed" name="{{ com }}" id="{{ com }}" style="grid-row: span; grid-column: 2" type="checkbox" checked>
-                                    {% else %}
-                                        <input class="can_be_changed" name="{{ com }}" id="{{ com }}" style="grid-row: span; grid-column: 2" type="checkbox">
-                                    {% endif %}
-                                        <span style="grid-row: span; grid-column: 2" class="slider round"></span>
-                                    </label>
-                                {% endfor %}
-                            {% endif %}
-                        {% endfor %}
-                        <input type="submit" id="submit">
-                    </div>
-                </form>
+            <div class="input" id="in"></div>
         `;
     }
 
-    async executeViewScript() {
-        let submit = document.getElementById("submit");
-        submit.addEventListener("mouseover", (e) => {
-            e.target.style.background = "#4e5057";
-        });
-        submit.addEventListener("mouseout", (e) => {
-            e.target.style.background = "#36383f";
-        });
+    async executeViewScript(json) {
         let listening = document.getElementsByClassName("can_be_changed");
         for (let i = 0; i < listening.length; i++) {
             listening[i].addEventListener("input", (e) => {
                 alert('get fucked moron L');
-            });
+            })
+        }
+        //inserting values
+        for (let key1 in json) {
+            if (JSON.stringify(json[key1]) !== '{}') {
+                let command_type = document.createElement('b')
+                command_type.className = "command_type"
+                command_type.textContent = key1.charAt(0).toUpperCase() + key1.slice(1)
+                document.getElementById("in").append(command_type)
+                for (let key2 in json[key1]) {
+                    let label1 = document.createElement('label')
+                    label1.htmlFor = key2
+                    label1.style.gridRow = 'auto'
+                    label1.style.gridColumn = '1'
+                    label1.textContent = key2.replaceAll("_", " ").replace("command", "")
+                    let label2 = document.createElement('label')
+                    label2.style.gridRow = 'auto'
+                    label2.style.gridColumn = '2'
+                    label2.className = 'switch'
+                    let input = document.createElement('input')
+                    input.className = 'can_be_changed'
+                    input.id = key2
+                    input.name = key2
+                    input.style.gridRow = 'auto'
+                    input.style.gridColumn = '2'
+                    input.type = 'checkbox'
+                    if (json[key1][key2] === 1) {
+                        input.checked = true
+                    }
+                    let span = document.createElement('span')
+                    span.style.gridRow = 'auto'
+                    span.style.gridColumn = '2'
+                    span.className = 'slider round'
+                    label2.append(input)
+                    label2.append(span)
+                    document.getElementById("in").append(label1)
+                    document.getElementById("in").append(label2)
+                }
+            }
         }
     }
 }

@@ -5,7 +5,8 @@ import Admins from "./views/Admins.js";
 
 
 var loaded = false
-var myJSON = ''
+var mySettings = ''
+var myAdmins = ''
 
 
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
@@ -42,10 +43,21 @@ const router = async () => {
     else await drawPage()
 
     async function load(xhr) {
-        myJSON = JSON.parse(xhr.responseText)
+        const jhr = new XMLHttpRequest();
+        jhr.onload = function () {
+            load2(xhr, this);
+        }
+        jhr.open("GET", "admin_list.json");
+        jhr.send(null);
+    }
+
+    async function load2(xhr, jhr) {
+        mySettings = JSON.parse(xhr.responseText)
+        myAdmins = JSON.parse(jhr.responseText)
         loaded = true
         await drawPage()
     }
+
     async function drawPage() {
         const potentialMatches = routes.map(route => {
             return {
@@ -64,9 +76,17 @@ const router = async () => {
         }
 
         const view = new match.route.view(getParams(match));
-        let json = eval('myJSON.' + match.route.path.slice(1))
-        document.querySelector("#main-page").innerHTML = await view.getHtml(json);
-        await view.executeViewScript(json.avatar);
+        let route = match.route.path.slice(1)
+        if (route === 'admins') {
+            document.querySelector("#main-page").innerHTML = await view.getHtml(myAdmins);
+            await view.executeViewScript(mySettings[route], myAdmins);
+        } else {
+            document.querySelector("#main-page").innerHTML = await view.getHtml();
+            await view.executeViewScript(mySettings[route]);
+        }
+
+
+
     }
 };
 
