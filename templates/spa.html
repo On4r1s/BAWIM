@@ -7,6 +7,7 @@
     <link href="{{ url_for('static',filename='favicon.png') }}" rel="icon" type="image/x-icon">
     <title>SPA</title>
 </head>
+
 <body>
 <header>
     <h1 style="color: azure">Project: Iris</h1>
@@ -43,6 +44,12 @@
         </script>
     </div>
 </div>
+<div id="confirmation">
+    <button id="confirm">Confirm</button>
+    <button id="cancel">Cancel</button>
+</div>
+<div id="error"></div>
 <script src="{{ url_for('static',filename='js/spa.js') }}" type="module"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
 </body>
 </html>

@@ -1,5 +1,7 @@
 import AbstractView from "./AbstractView.js";
 
+var myJSON = {}
+
 export default class extends AbstractView {
     constructor(params) {
         super(params);
@@ -13,12 +15,7 @@ export default class extends AbstractView {
     }
 
     async executeViewScript(json) {
-        let listening = document.getElementsByClassName("can_be_changed");
-        for (let i = 0; i < listening.length; i++) {
-            listening[i].addEventListener("input", (e) => {
-                alert('get fucked moron L');
-            })
-        }
+        myJSON = json
         //inserting values
         for (let key1 in json) {
             if (JSON.stringify(json[key1]) !== '{}') {
@@ -43,9 +40,7 @@ export default class extends AbstractView {
                     input.style.gridRow = 'auto'
                     input.style.gridColumn = '2'
                     input.type = 'checkbox'
-                    if (json[key1][key2] === 1) {
-                        input.checked = true
-                    }
+                    input.checked = json[key1][key2] === 1;
                     let span = document.createElement('span')
                     span.style.gridRow = 'auto'
                     span.style.gridColumn = '2'
@@ -57,5 +52,18 @@ export default class extends AbstractView {
                 }
             }
         }
+    }
+
+    async getInputValues() {
+        for (let key1 in myJSON) {
+            for (let key2 in myJSON[key1]){
+                if (document.getElementById(key2).checked){
+                    myJSON[key1][key2] = 1
+                } else {
+                    myJSON[key1][key2] = 0
+                }
+            }
+        }
+        return myJSON
     }
 }

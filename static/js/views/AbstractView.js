@@ -13,4 +13,8 @@ export default class {
 
     async executeViewScript() {
     }
+
+    async getInputValues() {
+        return {}
+    }
 }

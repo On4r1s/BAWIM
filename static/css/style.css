@@ -149,6 +149,43 @@ footer {
     text-align: center;
 }
 
+#avatar {
+    align-self: center;
+    border-radius: 75px;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+#confirmation {
+    background: cornflowerblue;
+    border-radius: 20px;
+    display: flex;
+    position: fixed;
+    height: 90px;
+    top: 85%;
+    width: 20%;
+    left: 78%;
+}
+
+#error {
+    background: darkred;
+    border-radius: 10px;
+    display: flex;
+    position: fixed;
+    height: 50px;
+    top: 90%;
+    width: 15%;
+    right: 83%;
+}
+
+.my_button {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    text-align: center;
+    margin: 5px;
+}
 /* header */
 
 header {

@@ -1,5 +1,7 @@
 import AbstractView from "./AbstractView.js";
 
+var myJSON = {}
+
 export default class extends AbstractView {
     constructor(params) {
         super(params);
@@ -18,15 +20,16 @@ export default class extends AbstractView {
     }
 
     async executeViewScript(json) {
+        myJSON = json
         let listening = document.getElementsByClassName("can_be_changed");
         for (let i = 0; i < listening.length; i++) {
             listening[i].addEventListener("input", (e) => {
-                alert('get fucked moron L');
+                check()
             })
         }
         //inserting values
         const languages = ['ru', 'en']
-        var select = document.createElement('option')
+        let select = document.createElement('option')
         select.value = json.lang
         select.text = json.lang
         document.getElementById("lang").append(select)
@@ -40,5 +43,12 @@ export default class extends AbstractView {
         }
         document.getElementById("prefix").value = json.prefix
         document.getElementById("prefix").text = json.prefix
+    }
+
+    async getInputValues() {
+        for (let key in myJSON) {
+            myJSON[key] = document.getElementById(key).value
+        }
+        return myJSON
     }
 }
