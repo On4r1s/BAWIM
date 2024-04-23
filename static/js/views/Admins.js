@@ -1,120 +1,220 @@
-import AbstractView from "./AbstractView.js";
+import AbstractView from "./AbstractView.js"
+import {ShSaveChangesMenu, shInfoMenu} from "./utils.js"
 
-let myid = "359412965843140609" //change
-let myJSON = {}
-let myAdmins = {}
+const id = "359412965843140609" // to change
+let myJSON, myAdmins
 
 export default class extends AbstractView {
     constructor(params) {
-        super(params);
-        this.setTitle("Admins");
+        super(params)
+        this.setTitle("Admins")
     }
 
     async getHtml() {
         return `
-            <b class="command_type" style="font-size: 23px">Active admins</b>
-            <div class="input" id="in" style="display: grid"></div>
-            <div id="add" style="display: flex; align-items: center; justify-content: start">
-                <button type="button" id="add_button" class="add_button">+</button>
+            <b class="command-type">Active admins</b>
+            <div class="input can-be-changed" id="in" style="display: grid"></div>
+            <div id="add">
+                <button type="button" id="btn-add" class="btn-add">+</button>
             </div>
-        `;
+        `
     }
 
-    async executeViewScript(json, admins) {
-        myJSON = json
+    async executeViewScript(json, jsonCopy, wasntChangedOther, admins) {
+        myJSON = jsonCopy
         myAdmins = admins
-        let add_button = document.getElementById("add_button")
-        add_button.addEventListener("mouseover", (e) => {
-            e.target.style.background = "#4e5057";
-        })
-        add_button.addEventListener("mouseout", (e) => {
-            e.target.style.background = "#36383f";
-        })
-        add_button.addEventListener("click", (e) => {
-            let addDiv = document.getElementById("add")
-            let input = document.createElement('input')
+        ShSaveChangesMenu(wasntChangedOther, myJSON, json)
+        // admin confirmation
+        const Confirm = {
+            open(options) {
+                options = Object.assign({}, {
+                    title: '',
+                    message: '',
+                    src: '',
+                    onOK: function () {
+                    },
+                    onCancel: function () {
+                    }
+                }, options)
+
+                const html = `
+                            <div class="confirm">
+                                <div class="confirm--window">
+                                    <div class="confirm--titlebar">
+                                        <span class="confirm--title">${options.title}</span>
+                                        <button class="confirm--close">&times;</button>
+                                    </div>
+                                    <div class="confirm--content" style="display: flex; justify-content: center">
+                                        <img src="${options.src}" alt="user avatar" style="height: 75px; width: 75px; align-self: center; border-radius: 38px"/>
+                                    </div>
+                                    <div class="confirm--content" style="text-align: center">${options.message}</div>
+                                    <div class="confirm--btns">
+                                        <button class="confirm--btn confirm--btn--ok">OK</button>
+                                        <button class="confirm--btn confirm--btn--cancel">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `
+
+                const template = document.createElement('template')
+                template.innerHTML = html
+
+                // elements
+                const confirmEl = template.content.querySelector('.confirm')
+                const btnClose = template.content.querySelector('.confirm--close')
+                const btnOk = template.content.querySelector('.confirm--btn--ok')
+                const btnCancel = template.content.querySelector('.confirm--btn--cancel')
+
+                confirmEl.addEventListener('click', (e) => {
+                    if (e.target === confirmEl) {
+                        options.onCancel()
+                        this.close(confirmEl)
+                    }
+                })
+
+                btnOk.addEventListener('click', () => {
+                    options.onOK()
+                    this.close(confirmEl)
+                });
+
+                [btnCancel, btnClose].forEach(el => {
+                    el.addEventListener('click', () => {
+                        options.onCancel()
+                        this.close(confirmEl)
+                    })
+                })
+
+                document.body.appendChild(template.content)
+            },
+
+            close(confirmEl) {
+                confirmEl.classList.add('confirm-close')
+
+                confirmEl.addEventListener('animationend', () => {
+                    document.body.removeChild(confirmEl)
+                })
+            }
+        }
+
+        const btnAdd = document.getElementById("btn-add")
+        btnAdd.addEventListener("click", () => {
+            btnAdd.hidden = true
+            const addDiv = document.getElementById("add")
+            const input = document.createElement('input')
             input.placeholder = 'discord id(not username)'
-            input.className = 'can_be_changed'
-            add_button.hidden = true
-            let XButton = document.createElement('button')
-            XButton.id = 'XButton'
-            XButton.textContent = 'X'
-            XButton.style.background = 'darkred'
-            XButton.className = 'my_button'
-            let OKButton = document.createElement('button')
-            OKButton.id = 'XButton'
-            OKButton.textContent = '✓'
-            OKButton.style.background = 'green'
-            OKButton.className = 'my_button'
+            const btnX = document.createElement('button')
+            btnX.textContent = 'X'
+            btnX.style.color = '#e33a3f'
+            btnX.style.borderWidth = '2px'
+            btnX.style.borderColor = '#e33a3f'
+            btnX.className = 'btn'
+            const btnOK = document.createElement('button')
+            btnOK.textContent = '✓'
+            btnOK.style.color = '#2eb639'
+            btnOK.style.borderWidth = '2px'
+            btnOK.style.borderColor = '#2eb639'
+            btnOK.className = 'btn'
+            btnOK.style.padding = '0'
             addDiv.append(input)
-            addDiv.append(XButton)
-            addDiv.append(OKButton)
+            addDiv.append(btnX)
+            addDiv.append(btnOK)
+            const regex = /^\d{1,19}$/
+            input.addEventListener("input", () => {
+                    if (!(regex.test(input.value))) {
+                        input.setCustomValidity("illegal character(s)")
+                        input.reportValidity()
+                    } else if (!((17 <= input.value.length) && (19 >= input.value.length))) {
+                        input.setCustomValidity("must be 17-19 numbers")
+                        input.reportValidity()
+                    } else {
+                        input.setCustomValidity("")
+                    }
+                }
+            )
 
             function hide() {
-                OKButton.remove()
-                XButton.remove()
+                btnOK.remove()
+                btnX.remove()
                 input.remove()
-                add_button.hidden = false
+                btnAdd.hidden = false
             }
 
-            XButton.addEventListener("click", (e) => {
+            btnX.addEventListener("click", () => {
                 hide()
             })
-            OKButton.addEventListener("click", (e) => {
-                hide()
-                const xhr = new XMLHttpRequest()
-                xhr.onload = function () {
-                    const date = new Date()
-                    let day = date.getDate()
-                    let month = date.getMonth() + 1
-                    let year = date.getFullYear()
-                    let currentDate = `${year}-${('0' + month).slice(-2)}-${('0' + day).slice(-2)}`
-                    myJSON[input.value] = {"Role": "Admin", "InvitedBy": myid, "InviteDate": currentDate}
-                    myAdmins[input.value] = JSON.parse(xhr.responseText)[input.value]
-                    insertAdmin(input.value)
+
+            btnOK.addEventListener("click", () => {
+                if (myJSON[input.value] !== undefined) {
+                    shInfoMenu('Error: user is already added.', '#e33a3f')
+                    return
                 }
-                xhr.open("GET", "admin_list.json")
-                xhr.setRequestHeader('req-admin', input.value)
-                xhr.send(null)
+                axios({
+                    method: 'get',
+                    url: '/admin_list.json',
+                    headers: {
+                        'req-admin': input.value
+                    }
+                }).then(function (response) {
+                    const info = response.data[input.value]
+                    Confirm.open({
+                        title: 'Add admin',
+                        message: `Are you sure you want to add <b> ${info.username} </b> ?`,
+                        src: `https://cdn.discordapp.com/avatars/${info.id}/${info.avatar}.webp?size=100`,
+                        onOK: () => {
+                            // UTC date format
+                            const date = new Date()
+                            const day = date.getUTCDate()
+                            const month = date.getUTCMonth() + 1
+                            const year = date.getUTCFullYear()
+                            const currentDate = `${year}-${('0' + month).slice(-2)}-${('0' + day).slice(-2)}`
+                            myJSON[input.value] = {"Role": "Admin", "InvitedBy": id, "InviteDate": currentDate}
+                            myAdmins[input.value] = info
+                            hide()
+                            insertAdmin(input.value)
+                            ShSaveChangesMenu(wasntChangedOther, myJSON, json)
+                        }
+                    })
+                })
             })
-
-
         })
-        //inserting values
+
+        // inserting values
         for (let key in admins) {
             insertAdmin(key)
         }
 
         function insertAdmin(key) {
-            //info
-            let discUser = admins[key]
-            let myUser = json[key]
-            let userDiv = document.getElementById('in')
-            let usernameDiv = document.createElement('div')
+            const discUser = admins[key]
+            const myUser = myJSON[key]
+            const userDiv = document.getElementById('in')
+            const usernameDiv = document.createElement('div')
             usernameDiv.style.gridColumn = '1'
             usernameDiv.textContent = '●  ' + discUser.username
             usernameDiv.className = 'admins'
-            let avatarDiv = document.createElement('div')
+            const avatarDiv = document.createElement('div')
             avatarDiv.style.gridColumn = '2'
-            let userAvatar = document.createElement('img')
+            const userAvatar = document.createElement('img')
             userAvatar.src = `https://cdn.discordapp.com/avatars/${discUser.id}/${discUser.avatar}.webp?size=100`
-            userAvatar.alt = "ava"
+            userAvatar.alt = "User avatar"
             userAvatar.width = 50
             userAvatar.height = 50
             userAvatar.style.alignSelf = 'center'
             userAvatar.style.borderRadius = '25px'
             avatarDiv.append(userAvatar)
-            let roleDiv = document.createElement('div')
+            const roleDiv = document.createElement('div')
             roleDiv.style.gridColumn = '3'
             roleDiv.className = 'admins'
             roleDiv.style.fontSize = '16px'
             roleDiv.textContent = 'Role: ' + myUser.Role
-            let inviteDiv = document.createElement('div')
+            const inviteDiv = document.createElement('div')
             inviteDiv.style.gridColumn = '4'
             inviteDiv.className = 'admins'
             inviteDiv.style.fontSize = '16px'
-            inviteDiv.textContent = 'Invited by: ' + myUser.InvitedBy
-            let dateDiv = document.createElement('div')
+            let whom
+            if (myUser.InvitedBy === 'Bot') whom = 'Bot'
+            else whom = admins[myUser.InvitedBy].username
+            inviteDiv.textContent = `Invited by: ${whom}`
+            const dateDiv = document.createElement('div')
             dateDiv.style.gridColumn = '5'
             dateDiv.className = 'admins'
             dateDiv.style.fontSize = '16px'
@@ -124,29 +224,38 @@ export default class extends AbstractView {
             userDiv.append(roleDiv)
             userDiv.append(inviteDiv)
             userDiv.append(dateDiv)
-            //delete button
-            let buttonDiv = document.createElement('div')
-            buttonDiv.style.gridColumn = '6'
-            buttonDiv.style.display = 'flex'
-            buttonDiv.style.justifyContent = 'center'
-            buttonDiv.style.alignItems = 'center'
+
+            const btnDel = document.createElement('div')
+            btnDel.style.gridColumn = '6'
+            btnDel.style.display = 'flex'
+            btnDel.style.justifyContent = 'center'
+            btnDel.style.alignItems = 'center'
             if (myUser.Role !== 'Owner') {
-                let button = document.createElement('button')
-                button.id = 'delete_' + discUser.id
-                button.textContent = 'X'
-                button.style.background = 'darkred'
-                button.className = 'my_button'
-                buttonDiv.append(button)
-                userDiv.append(buttonDiv)
-                button.addEventListener("click", (e) => {
-                    delete admins[key]
-                    delete json[key]
-                    usernameDiv.remove()
-                    avatarDiv.remove()
-                    roleDiv.remove()
-                    inviteDiv.remove()
-                    dateDiv.remove()
-                    buttonDiv.remove()
+                const btn = document.createElement('button')
+                btn.textContent = 'X'
+                btn.style.color = '#e33a3f'
+                btn.style.borderWidth = '2px'
+                btn.style.borderColor = '#e33a3f'
+                btn.className = 'btn'
+                btnDel.append(btn)
+                userDiv.append(btnDel)
+                btn.addEventListener("click", () => {
+                    Confirm.open({
+                        title: 'Remove admin',
+                        message: `Are you sure you want to remove <b> ${admins[key].username} </b> ?`,
+                        src: `https://cdn.discordapp.com/avatars/${admins[key].id}/${admins[key].avatar}.webp?size=100`,
+                        onOK: () => {
+                            delete admins[key]
+                            delete myJSON[key]
+                            usernameDiv.remove()
+                            avatarDiv.remove()
+                            roleDiv.remove()
+                            inviteDiv.remove()
+                            dateDiv.remove()
+                            btnDel.remove()
+                            ShSaveChangesMenu(wasntChangedOther, myJSON, json)
+                        }
+                    })
                 })
             }
         }

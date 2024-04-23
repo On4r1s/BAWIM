@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="initial-scale=1.0" name="viewport">
     <link href="{{ url_for('static',filename='css/style.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ url_for('static',filename='favicon.png') }}" rel="icon" type="image/x-icon">
+    <script src="{{ url_for('static',filename='js/spa.js') }}" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
     <title>SPA</title>
 </head>
 
@@ -14,42 +17,23 @@
     <div><a href="/">sos</a></div>
     <div><a href="/">sas</a></div>
 </header>
-<div class="my_menu">
+<div class="my-menu">
     <div class="container">
         <div class="left-menu">
-            <a href="/personalize">
-                <button class="button_menu" type="button" id="/personalize" data-link>Personalize Bot</button>
-            </a>
-            <a href="/commands">
-                <button class="button_menu" type="button" id="/commands" data-link>Bot Commands</button>
-            </a>
-            <a href="/settings">
-                <button class="button_menu" type="button" id="/settings" data-link>Bot Settings</button>
-            </a>
-            <a href="/admins">
-                <button class="button_menu" type="button" id="/admins" data-link>Admins</button>
-            </a>
+            <a href="/personalize" class="btn-menu" id="personalize" data-link>Personalize Bot</a>
+            <a href="/commands" class="btn-menu" id="commands" data-link>Bot Commands</a>
+            <a href="/settings" class="btn-menu" id="settings" data-link>Bot Settings</a>
+            <a href="/admins" class="btn-menu" id="admins" data-link>Admins</a>
         </div>
         <div class="main-page" id="main-page"></div>
-        <script>
-            let stuff = document.getElementsByClassName("button_menu");
-            for (let i = 0; i < stuff.length; i++) {
-                stuff[i].addEventListener("mouseover", (e) => {
-                    e.target.style.background = "#735b8f";
-                });
-                stuff[i].addEventListener("mouseout", (e) => {
-                    e.target.style.background = "cornflowerblue";
-                });
-            }
-        </script>
     </div>
 </div>
-<div id="confirmation">
-    <button id="confirm">Confirm</button>
-    <button id="cancel">Cancel</button>
+<div id="confirmation" style="display: none; flex-direction: column">
+    <div style="color: azure">Save changes!</div>
+    <div style="display: flex; flex-direction: row; justify-content: space-around; margin-top: 5px">
+        <button id="confirm">Save</button>
+        <button id="cancel">Reset</button>
+    </div>
 </div>
-<div id="error"></div>
-<script src="{{ url_for('static',filename='js/spa.js') }}" type="module"></script>
-<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
 </body>
 </html>
