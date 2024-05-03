@@ -9,11 +9,6 @@ body {
     font-family: 'Noto Sans', sans-serif;
 }
 
-h1 {
-    color: #5865f2;
-    margin-left: 20px;
-}
-
 label {
     color: azure;
     margin: 10px;
@@ -69,10 +64,11 @@ input[type="file"] {
     flex-wrap: wrap;
     gap: 10px;
     width: auto;
+    min-height: 250px;
     border-radius: 20px;
 }
 
-.left-menu {
+#navigate-buttons {
     order: -1;
     width: 210px;
     display: flex;
@@ -80,7 +76,7 @@ input[type="file"] {
     gap: 10px;
 }
 
-.main-page {
+#main-page {
     order: 1;
     align-self: flex-start;
     width: 800px;
@@ -247,29 +243,19 @@ input[type="file"] {
     0% {
         top: 120%;
     }
-    100% {
-        top: 90%;
-    }
-}
-
-/* bruh x1 */
-@keyframes reversed-info-animation {
-    0% {
+    5% {
         top: 90%;
     }
     100% {
-        top: 120%;
+        top: 90%;
     }
 }
 
 .info-sh {
-    animation-duration: 250ms;
+    animation-duration: 2.5s;
+    animation-iteration-count: 2;
+    animation-direction: alternate;
     animation-name: info-animation;
-}
-
-.info-hide {
-    animation-duration: 250ms;
-    animation-name: reversed-info-animation;
 }
 
 #add {
@@ -282,29 +268,80 @@ input[type="file"] {
     background: #5865f2;
 }
 
-/* header */
+.login-button {
+    background: #5865f2;
+    width: 300px;
+    height: 50px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 30px;
+    text-decoration: none;
+    position: relative;
+    top: 50px;
+    padding-top: 3px;
+    color: inherit;
+    text-align: center;
+}
+
+.login-button:hover {
+    background: #4752c4;
+}
+
+#login-form {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    color: azure;
+}
 
 header {
-    z-index: 2;
-    display: inline-grid;
-    align-items: start;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     background: #1f2129;
     width: 100%;
 }
 
-header h1 {
-    grid-row-start: 1;
-    width: 200px;
+#log-out:hover {
+    text-decoration: underline;
+    cursor: pointer;
 }
 
-header div {
-    grid-row-start: 1;
-    align-self: end;
-    justify-self: end;
-    border-radius: 10px;
-    background: #36383f;
-    width: 50px;
-    height: 20px;
+#log-out-menu {
+    position: absolute;
+    z-index: 2;
+    display: grid;
+    background: #1f2129;
+    width: 15%;
+    right: 5%;
+    height: 10%;
+    align-content: flex-end;
+    border-radius: 5px;
+    text-align: center;
+    border: 3px solid #4752c4;
+    text-overflow: fade;
+}
+
+@keyframes log-out-sh {
+    0% {top: 0;}
+    100% {top: 7%;}
+}
+
+@keyframes log-out-hide {
+    0% {top: 7%;}
+    100% {top: 0;}
+}
+
+.log-out-sh {
+    animation-name: log-out-sh;
+    animation-duration: 100ms;
+}
+
+.log-out-hide {
+    animation-name: log-out-hide;
+    animation-duration: 100ms;
 }
 
 .input {

@@ -13,19 +13,19 @@
 
 <body>
 <header>
-    <h1 style="color: azure">Project: Iris</h1>
-    <div><a href="/">sos</a></div>
-    <div><a href="/">sas</a></div>
+    <h1 style="color: azure; margin-left: 4%">Project: Iris</h1>
+    <div style="margin-right: 10%;"><img id="user-avatar" style="border-radius: 25px"
+                                         src="{{ url_for('static',filename='who.png') }}" alt="User's avatar"
+                                         width="50px" height="50px"></div>
 </header>
+<div id="log-out-menu" style="top: 0">
+    <div id="username" style="color: azure; grid-column: 1; padding-bottom: 4px;">--</div>
+    <div style="color: #e33a3f; grid-column: 2; padding-bottom: 4px;"><i id="log-out">Log Out</i></div>
+</div>
 <div class="my-menu">
     <div class="container">
-        <div class="left-menu">
-            <a href="/personalize" class="btn-menu" id="personalize" data-link>Personalize Bot</a>
-            <a href="/commands" class="btn-menu" id="commands" data-link>Bot Commands</a>
-            <a href="/settings" class="btn-menu" id="settings" data-link>Bot Settings</a>
-            <a href="/admins" class="btn-menu" id="admins" data-link>Admins</a>
-        </div>
-        <div class="main-page" id="main-page"></div>
+        <div id="navigate-menu"></div>
+        <div id="main-page"></div>
     </div>
 </div>
 <div id="confirmation" style="display: none; flex-direction: column">

@@ -1,5 +1,5 @@
 import AbstractView from "./AbstractView.js"
-import {ShSaveChangesMenu, shInfoMenu} from "./utils.js"
+import {ShSaveChangesMenu, shInfoMenu} from "../utils.js"
 
 let myJSON, myAvatar
 

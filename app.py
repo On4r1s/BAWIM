@@ -10,6 +10,7 @@ from utils import *
 app = Flask(__name__, static_folder='static', static_url_path="/static")
 app.config['UPLOAD_FOLDER'] = 'static/upload/'
 app_token = 'MTIwMTE3MDg2Njk4MjEwNTI4MA.GpItjr.0MdKCF9tx5TjvNxmsyRzrJRNFnZYbyfPyEHfCw'
+app_secret = 'hnbkHKXeQBMfP93FyExJR_j3NZQ3DSn3'
 temp = {'359412965843140609': {'id': '359412965843140609', 'username': 'on4r1s',
                                'avatar': '1fc68c35b78fe8ac26f622508e4c009c', 'discriminator': '0',
                                'public_flags': 4194560, 'flags': 4194560, 'banner': None, 'accent_color': None,
@@ -35,17 +36,30 @@ def catch_all(path):
 @app.get('/settings.json')
 def get_settings():
     try:
-        file = open('settings.json', "rb")
+        file = open('settings.json', 'rb')
+        # checking credentials
+        list(json.load(file)['admins'].keys()).index(request.headers['Id'])
+        check_user(request.headers['Id'], request.headers['Access-Token'], request.headers['Token-Type'])
+
     except FileNotFoundError:
-        file = Response(status=404)
+        return Response(status=404)
+    except ValueError:
+        return Response(status=403)
+    except UserAuthenticationException:
+        return Response(status=401)
+    except KeyError:
+        return Response(status=400)
+    file.seek(0)
     return file
 
 
 @app.post('/settings.json')
 def update_info():
     try:
+        # checking credentials
+        list(json.load(open('settings.json', 'rb'))['admins'].keys()).index(request.headers['Id'])
+        check_user(request.headers['Id'], request.headers['Access-Token'], request.headers['Token-Type'])
         post_json = json.loads(request.get_data())
-        print(post_json)
 
         # checking for new img
         img_name = None
@@ -54,11 +68,10 @@ def update_info():
             img_name = str(uuid4().hex) + '.' + img.format.lower()
             img.save(os.path.join(app.config['UPLOAD_FOLDER'], img_name))
             post_json.pop('newimage')
-        except UnidentifiedImageError or TypeError:
-            print('not img/malformed img')
+        except (UnidentifiedImageError, TypeError):
             return Response(status=400)
         except KeyError:
-            print('no new image')
+            pass
 
         # validation
         actual_settings = json.load(open('settings.json'))
@@ -85,26 +98,33 @@ def update_info():
         # response
         return Response(headers={'img-name': actual_settings['personalize']['avatar']}, status=204)
 
-    except json.JSONDecodeError or TypeError as e:
-        print('not json')
+    except (json.JSONDecodeError, TypeError, KeyError) as e:
         print(e)
         return Response(status=400)
-
-    except Exception as e:
-        print(e)
-        return Response(status=500)
+    except ValueError:
+        return Response(status=403)
+    except UserAuthenticationException:
+        return Response(status=401)
 
 
 @app.get('/admin_list.json')
 def get_admins():
     try:
+        # checking credentials
+        list(json.load(open('settings.json', 'rb'))['admins'].keys()).index(request.headers['Id'])
+        check_user(request.headers['Id'], request.headers['Access-Token'], request.headers['Token-Type'])
+
         if request.headers['req-admin'] == 'all':
-            # output = utils.fetch(app_token, json.load(open('settings.json'))['admins'])
-            output = temp
+            output = fetch(app_token, json.load(open('settings.json'))['admins'])
+            # output = temp
         else:
             output = fetch(app_token, [request.headers['req-admin']])
     except KeyError:
         return Response(status=400)
+    except ValueError:
+        return Response(status=403)
+    except UserAuthenticationException:
+        return Response(status=401)
     return output
 
 
@@ -113,5 +133,5 @@ def get_img(path):
     try:
         file = open(f'static/upload/{path}', "rb")
     except FileNotFoundError:
-        file = Response(status=404)
+        return Response(status=404)
     return file
