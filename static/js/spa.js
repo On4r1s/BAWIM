@@ -36,7 +36,10 @@ const getMatch = async () => {
     let match = potentialMatches.find(potentialMatch => potentialMatch.result !== null);
 
     if (!match) {
-        return navigateTo(routes[0])
+        match = {
+            route: routes[0],
+            result: [location.pathname]
+        }
     }
     return match
 }
@@ -98,6 +101,7 @@ const setVariables = (data) => {
 // changing page
 const router = async () => {
     const loginInfo = JSON.parse(localStorage.getItem('user-info'))
+    console.log(window.location)
     if (loginInfo === null && window.location.href.slice(22, 27) !== "login") {
         return navigateTo("/login")
     }

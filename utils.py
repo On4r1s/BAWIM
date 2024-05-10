@@ -24,8 +24,9 @@ def fetch(token, users):
 
 
 def validate(group, key, val, owner_id, command_list):
-    reg_name = """^[^\s\0@#:"'`\x07\x08\x0B\x0C\x0E-\x1F]{1,100}$"""
-    reg_text = """^[^\0@#:"'`\x07\x08\x0B\x0C\x0E-\x1F]{1,100}$"""
+    reg_name = """^[^\s\0@#:"'`\x07\x08\x0B\x0C\x0E-\x1F]{1,}$"""
+    reg_text = """^[^\0@#:"'`\x07\x08\x0B\x0C\x0E-\x1F]{1,}$"""
+    reg_prefix = """^[^\0"'`\x07\x08\x0B\x0C\x0E-\x1F]{1,3}$"""
     forbidden_words = ['everyone', 'here', 'discord']
     status_list = ["online", "idle", "dnd"]
     activity_list = ['playing', 'streaming', 'listening', 'watching', 'competing']
@@ -72,7 +73,7 @@ def validate(group, key, val, owner_id, command_list):
         elif key == 'prefix':
             if not (1 <= len(val) <= 3):
                 raise ValidationException
-            elif not re.findall(reg_name, val.lower(), re.IGNORECASE):
+            elif not re.findall(reg_prefix, val.lower(), re.IGNORECASE):
                 raise ValidationException
         else:
             raise ValidationException
