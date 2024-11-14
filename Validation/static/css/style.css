@@ -1,0 +1,555 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,700&display=swap');
+
+body {
+    background-color: #272934;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+label {
+    color: azure;
+    margin: 10px;
+    font-size: 17px;
+}
+
+input,
+select {
+    border: none;
+    outline: none;
+    height: 34px;
+    vertical-align: middle;
+    position: relative;
+    border-radius: 10px;
+    width: auto;
+    box-sizing: border-box;
+    padding: 0 18px;
+    margin: 10px;
+    background: #36383f;
+    color: azure;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    background: #36383f;
+    display: inline-block;
+    align-self: center;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 8px
+}
+
+.custom-file-upload:hover {
+    background: #4e5057;
+}
+
+.my-menu {
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+    margin-bottom: 50px;
+}
+
+.container {
+    padding: 10px;
+    background: #1f2129;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: auto;
+    min-height: 250px;
+    border-radius: 20px;
+}
+
+#navigate-buttons {
+    order: -1;
+    width: 210px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#main-page {
+    order: 1;
+    align-self: flex-start;
+    width: 800px;
+    margin-top: 30px;
+    padding-left: 20px;
+}
+
+.btn-menu {
+    width: 200px;
+    height: 30px;
+    background: #1f2129;
+    border-radius: 10px;
+    font-size: large;
+    text-decoration: none;
+    text-align: left;
+    color: azure;
+    margin: 5px 10px 5px;
+    padding-left: 10px;
+    padding-top: 6px;
+}
+
+.image-input {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.command-type {
+    color: #5865f2;
+    font-size: 23px;
+    grid-row: auto;
+    grid-column: 1;
+}
+
+.admins {
+    color: azure;
+    margin: 10px;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.btn-add {
+    border: none;
+    outline: none;
+    height: 34px;
+    vertical-align: middle;
+    position: relative;
+    border-radius: 10px;
+    width: auto;
+    box-sizing: border-box;
+    padding: 0 12px;
+    margin: 10px;
+    background: #36383f;
+    color: azure;
+}
+
+#img {
+    align-self: center;
+    border-radius: 75px;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.btn {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    text-align: center;
+    margin: 5px;
+    border-radius: 6px;
+    background: #1f2129;
+    padding: 1px 3px;
+}
+
+@keyframes confirmation-animation {
+    0% {
+        top: 120%;
+    }
+    100% {
+        top: 90%;
+    }
+}
+
+@keyframes reversed-confirmation-animation {
+    0% {
+        top: 90%;
+    }
+    100% {
+        top: 120%;
+    }
+}
+
+.confirmation-sh {
+    animation-duration: 250ms;
+    animation-name: confirmation-animation;
+}
+
+.confirmation-hide {
+    animation-duration: 250ms;
+    animation-name: reversed-confirmation-animation;
+}
+
+#confirmation {
+    padding: 10px;
+    background: #1f2129;
+    text-align: center;
+    border-radius: 20px;
+    border: 3px solid #5865f2;
+    position: fixed;
+    height: 90px;
+    top: 90%;
+    width: 12%;
+    left: 85%;
+}
+
+#cancel {
+    color: #e33a3f;
+    border-radius: 4px;
+    border-color: #e33a3f;
+    border-width: 2px;
+    background: #1f2129;
+}
+
+#confirm {
+    color: #2eb639;
+    border-radius: 4px;
+    border-color: #2eb639;
+    border-width: 2px;
+    background: #1f2129;
+}
+
+#confirm:hover,
+#cancel:hover,
+.confirm--btn:hover,
+.btn:hover,
+.btn-menu:hover {
+    background: #36383f;
+}
+
+#btn-add:hover {
+    background: #4e5057;
+}
+
+.info {
+    justify-content: center;
+    align-content: center;
+    color: azure;
+    background: #1f2129;
+    text-align: center;
+    border-radius: 20px;
+    position: fixed;
+    height: 100px;
+    padding: 30px 5px;
+    overflow-wrap: break-word;
+    text-transform: capitalize;
+    inline-size: 12%;
+    top: 90%;
+    width: 12%;
+    left: 2%;
+}
+
+@keyframes info-animation {
+    0% {
+        top: 120%;
+    }
+    5% {
+        top: 90%;
+    }
+    100% {
+        top: 90%;
+    }
+}
+
+.info-sh {
+    animation-duration: 2.5s;
+    animation-iteration-count: 2;
+    animation-direction: alternate;
+    animation-name: info-animation;
+}
+
+#add {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.active {
+    background: #5865f2;
+}
+
+.login-button {
+    background: #5865f2;
+    width: 300px;
+    height: 50px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 30px;
+    text-decoration: none;
+    position: relative;
+    top: 50px;
+    padding-top: 3px;
+    color: inherit;
+    text-align: center;
+}
+
+.login-button:hover {
+    background: #4752c4;
+}
+
+#login-form {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    color: azure;
+}
+
+header {
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #1f2129;
+    width: 100%;
+}
+
+#log-out:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#log-out-menu {
+    position: absolute;
+    z-index: 2;
+    display: grid;
+    background: #1f2129;
+    width: 15%;
+    right: 5%;
+    height: 10%;
+    align-content: flex-end;
+    border-radius: 5px;
+    text-align: center;
+    border: 3px solid #4752c4;
+    text-overflow: fade;
+}
+
+@keyframes log-out-sh {
+    0% {top: 0;}
+    100% {top: 7%;}
+}
+
+@keyframes log-out-hide {
+    0% {top: 7%;}
+    100% {top: 0;}
+}
+
+.log-out-sh {
+    animation-name: log-out-sh;
+    animation-duration: 100ms;
+}
+
+.log-out-hide {
+    animation-name: log-out-hide;
+    animation-duration: 100ms;
+}
+
+.input {
+    display: grid;
+    grid-row-gap: 10px;
+}
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .3s;
+    transition: .3s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .3s;
+    transition: .3s;
+}
+
+input:checked + .slider {
+    background-color: #5865f2;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #5865f2;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* confirm window */
+
+.confirm {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    box-sizing: border-box;
+    opacity: 0;
+    animation-name: confirm---open;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirm-close {
+    animation-name: confirm---close;
+}
+
+.confirm--window {
+    width: 100%;
+    max-width: 600px;
+    background: #272934;
+    font-size: 14px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: scale(0.75);
+    animation-name: confirm--window---open;
+    animation-duration: 0.2s;
+    animation-fill-mode: forwards;
+    animation-delay: 0.2s;
+}
+
+.confirm--titlebar {
+    padding: 1.25em;
+}
+
+.confirm--content {
+    padding: 1.25em;
+    color: azure;
+}
+
+.confirm--btns {
+    padding: 1.25em;
+}
+
+.confirm--titlebar {
+    background: #1f2129;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.confirm--title {
+    color: azure;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.confirm--close {
+    color: azure;
+    background: none;
+    outline: none;
+    border: none;
+    transform: scale(2.5);
+    transition: color 0.15s;
+}
+
+.confirm--close:hover {
+    color: #e33a3f;
+    cursor: pointer;
+}
+
+.confirm--content {
+    line-height: 1.8em;
+}
+
+.confirm--btns {
+    display: flex;
+    justify-content: space-around;
+}
+
+.confirm--btn {
+    padding: 0.4em 0.8em;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-left: 0.6em;
+    cursor: pointer;
+    outline: none;
+}
+
+.confirm--btn--cancel {
+    border-color: #e33a3f;
+    border-width: 2px;
+    background: inherit;
+    color: #e33a3f;
+}
+
+.confirm--btn--ok {
+    border-color: #2eb639;
+    border-width: 2px;
+    background: inherit;
+    color: #2eb639;
+}
+
+.confirm--btn:focus {
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes confirm---open {
+    from {
+        opacity: 0
+    }
+    to {
+        opacity: 1
+    }
+}
+
+@keyframes confirm---close {
+    from {
+        opacity: 1
+    }
+    to {
+        opacity: 0
+    }
+}
+
+@keyframes confirm--window---open {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

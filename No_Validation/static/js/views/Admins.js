@@ -22,7 +22,7 @@ export default class extends AbstractView {
         myAdmins = admins
         ShSaveChangesMenu(wasntChangedOther, myJSON, json)
         // admin confirmation
-        if (myJSON[JSON.parse(localStorage.getItem('user-info')).id]['Role'] === 'Owner') {
+        if (myJSON[JSON.parse(localStorage.getItem('user-info')).id]['role'] === 'Owner') {
             document.getElementById('add').innerHTML = `<button type="button" id="btn-add" class="btn-add">+</button>`
             const btnAdd = document.getElementById("btn-add")
             btnAdd.addEventListener("click", () => {
@@ -82,8 +82,8 @@ export default class extends AbstractView {
                         headers: {
                             'req-admin': input.value,
                             'id': JSON.parse(localStorage.getItem('user-info')).id,
-                            'accessToken': localStorage.getItem('accessToken'),
-                            'tokenType': 'token'
+                            'access-Token': localStorage.getItem('access-token'),
+                            'token-Type': 'token'
                         }
                     }).then(function (response) {
                         if (response.status !== 200) {
@@ -107,9 +107,9 @@ export default class extends AbstractView {
                                 const year = date.getUTCFullYear()
                                 const currentDate = `${year}-${('0' + month).slice(-2)}-${('0' + day).slice(-2)}`
                                 myJSON[input.value] = {
-                                    "Role": "Admin",
-                                    "InvitedBy": JSON.parse(localStorage.getItem('user-info')).id,
-                                    "InviteDate": currentDate
+                                    "role": "Admin",
+                                    "invitedBy": JSON.parse(localStorage.getItem('user-info')).id,
+                                    "inviteDate": currentDate
                                 }
                                 myAdmins[input.value] = info
                                 hide()
@@ -144,20 +144,20 @@ export default class extends AbstractView {
             roleDiv.style.gridColumn = '3'
             roleDiv.className = 'admins'
             roleDiv.style.fontSize = '16px'
-            roleDiv.textContent = 'Role: ' + myUser.Role
+            roleDiv.textContent = 'Role: ' + myUser.role
             const inviteDiv = document.createElement('div')
             inviteDiv.style.gridColumn = '4'
             inviteDiv.className = 'admins'
             inviteDiv.style.fontSize = '16px'
             let whom
-            if (myUser.InvitedBy === 'Bot') whom = 'Bot'
-            else whom = admins[myUser.InvitedBy].username
+            if (myUser.invitedBy === 'Bot') whom = 'Bot'
+            else whom = admins[myUser.invitedBy].username
             inviteDiv.textContent = `Invited by: ${whom}`
             const dateDiv = document.createElement('div')
             dateDiv.style.gridColumn = '5'
             dateDiv.className = 'admins'
             dateDiv.style.fontSize = '16px'
-            dateDiv.textContent = 'Invite date: ' + myUser.InviteDate
+            dateDiv.textContent = 'Invite date: ' + myUser.invitedDate
             userDiv.append(usernameDiv)
             userDiv.append(avatarDiv)
             userDiv.append(roleDiv)
@@ -169,7 +169,7 @@ export default class extends AbstractView {
             btnDel.style.display = 'flex'
             btnDel.style.justifyContent = 'center'
             btnDel.style.alignItems = 'center'
-            if (myUser.Role !== 'Owner' && myJSON[JSON.parse(localStorage.getItem('user-info')).id]['Role'] === 'Owner') {
+            if (myUser.role !== 'Owner' && myJSON[JSON.parse(localStorage.getItem('user-info')).id]['role'] === 'Owner') {
                 const btn = document.createElement('button')
                 btn.textContent = 'X'
                 btn.style.color = '#e33a3f'

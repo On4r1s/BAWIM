@@ -101,7 +101,6 @@ const setVariables = (data) => {
 // changing page
 const router = async () => {
     const loginInfo = JSON.parse(localStorage.getItem('user-info'))
-    console.log(window.location)
     if (loginInfo === null && window.location.href.slice(22, 27) !== "login") {
         return navigateTo("/login")
     }
@@ -296,7 +295,7 @@ const activeButton = (route) => {
 // making json to send
 const findDifferences = (obj1, obj2) => {
     const diff = {}
-    for (let key in obj1) {
+    for (let key in obj2) {
         if (obj1.hasOwnProperty(key)) {
             if (obj2.hasOwnProperty(key)) {
                 if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
@@ -309,9 +308,9 @@ const findDifferences = (obj1, obj2) => {
                         diff[key] = obj2[key]
                     }
                 }
-            } else {
-                diff[key] = obj1[key]
             }
+        } else {
+            diff[key] = obj2[key]
         }
     }
     for (let key in obj1) {

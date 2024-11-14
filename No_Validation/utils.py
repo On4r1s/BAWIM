@@ -1,5 +1,5 @@
 import json
-from datetime import datetime, timedelta
+import datetime
 
 import requests
 import re
@@ -89,18 +89,18 @@ def validate(group, key, val, owner_id, command_list):
                         raise ValidationException
                 elif isinstance(val, dict):
                     try:
-                        if val['Role'] != 'Admin':
+                        if val['role'] != 'Admin':
                             raise ValidationException
                         try:
-                            int(val['InvitedBy'])
-                            if not (17 <= len(val['InvitedBy']) <= 19):
+                            int(val['invitedBy'])
+                            if not (17 <= len(val['invitedBy']) <= 19):
                                 raise ValidationException
                         except ValueError:
-                            if val['InvitedBy'] != 'Bot':
+                            if val['invitedBy'] != 'Bot':
                                 raise ValidationException
-                        today = datetime.utcnow()
-                        yesterday = today - timedelta(1)
-                        if yesterday.strftime("%Y-%m-%d") >= val['InviteDate'] >= today.strftime("%Y-%m-%d"):
+                        today = datetime.datetime.now(datetime.UTC)
+                        yesterday = today - datetime.timedelta(1)
+                        if yesterday.strftime("%Y-%m-%d") >= val['inviteDate'] >= today.strftime("%Y-%m-%d"):
                             raise ValidationException
                     except KeyError:
                         raise ValidationException
@@ -127,7 +127,7 @@ user_login_temp = {}
 
 def check_user(user_id, token, token_type):
     try:
-        if user_login_temp[user_id][token] > datetime.utcnow():
+        if user_login_temp[user_id][token] > datetime.datetime.now(datetime.UTC):
             return
         else:
             user_login_temp[user_id].pop(token)
@@ -135,7 +135,7 @@ def check_user(user_id, token, token_type):
     except KeyError:
         resp = fetch_user_data(token, token_type)
         if resp['id'] == user_id:
-            user_login_temp[user_id] = {token: datetime.utcnow() + timedelta(1)}
+            user_login_temp[user_id] = {token: datetime.datetime.now(datetime.UTC) + datetime.timedelta(1)}
             return
         else:
             raise UserAuthenticationException

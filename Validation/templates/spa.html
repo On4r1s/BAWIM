@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="initial-scale=1.0" name="viewport">
+    <link href="{{ url_for('static',filename='css/style.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static',filename='favicon.png') }}" rel="icon" type="image/x-icon">
+    <script src="{{ url_for('static',filename='js/spa.js') }}" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+    <title>SPA</title>
+</head>
+
+<body>
+<header>
+    <h1 style="color: azure; margin-left: 4%">Project: Iris</h1>
+    <div style="margin-right: 10%;"><img id="user-avatar" style="border-radius: 25px"
+                                         src="{{ url_for('static',filename='who.png') }}" alt="User's avatar"
+                                         width="50px" height="50px"></div>
+</header>
+<div id="log-out-menu" style="top: 0">
+    <div id="username" style="color: azure; grid-column: 1; padding-bottom: 4px;">--</div>
+    <div style="color: #e33a3f; grid-column: 2; padding-bottom: 4px;"><i id="log-out">Log Out</i></div>
+</div>
+<div class="my-menu">
+    <div class="container">
+        <div id="navigate-menu"></div>
+        <div id="main-page"></div>
+    </div>
+</div>
+<div id="confirmation" style="display: none; flex-direction: column">
+    <div style="color: azure">Save changes!</div>
+    <div style="display: flex; flex-direction: row; justify-content: space-around; margin-top: 5px">
+        <button id="confirm">Save</button>
+        <button id="cancel">Reset</button>
+    </div>
+</div>
+</body>
+</html>
