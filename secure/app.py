@@ -7,12 +7,11 @@ from flask import Flask, render_template, request, Response, jsonify
 from utils import *
 import sqlite3
 
-print(os.getcwd())
 conn = sqlite3.connect(os.getcwd()+'\\Bawim.db', check_same_thread=False)
 cursor = conn.cursor()
 
 app = Flask(__name__, static_folder='static', static_url_path="/static")
-app.config['UPLOAD_FOLDER'] = os.getcwd()+'static/upload/'
+app.config['UPLOAD_FOLDER'] = 'static/upload/'
 app_token = os.environ.get('APP_TOKEN')
 app_secret = os.environ.get('APP_SECRET')
 

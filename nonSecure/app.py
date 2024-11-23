@@ -2,13 +2,12 @@ import os
 from base64 import b64decode
 from io import BytesIO
 from uuid import uuid4
-
 from PIL import Image, UnidentifiedImageError
 from flask import Flask, render_template, request, Response, jsonify
 from utils import *
 import sqlite3
 
-conn = sqlite3.connect('Bawim.db', check_same_thread=False)
+conn = sqlite3.connect(os.getcwd() + '\\Bawim.db', check_same_thread=False)
 cursor = conn.cursor()
 
 app = Flask(__name__, static_folder='static', static_url_path="/static")
@@ -21,6 +20,8 @@ owner_id = cursor.fetchall()
 
 
 def check_credentials(headers):
+    if headers['id'] == 'admin' and headers['Access-Token'] == 'admin':  # _temporary for testing_
+        return False
     cursor.execute(f"""SELECT Id FROM Admins WHERE Id = '{headers['Id']}';""")
     if len(cursor.fetchall()) == 0:
         return True
@@ -109,32 +110,22 @@ def update_info():
         post_json = json.loads(request.get_data())
         # checking for new img
         img_name = None
-        try:
+        try:  # _killed_
             img = Image.open(BytesIO(b64decode(post_json['newimage'])))
             img_name = str(uuid4().hex) + '.' + img.format.lower()
             img.save(os.path.join(app.config['UPLOAD_FOLDER'], img_name))
             post_json.pop('newimage')
-        except UnidentifiedImageError:
-            return Response(status=415)
-        except TypeError:
-            return Response(status=400)
         except KeyError:
             pass
 
-        # validation
-        cursor.execute(f"""SELECT Name from Commands""")
-        out = cursor.fetchall()
-        command_list = [y[0] for y in out]
+        # _NO_ validation
         for group in post_json:
             for key in post_json[group]:
                 if key != 'avatar':
-                    try:
-                        if validate(group, key, post_json[group][key], owner_id, command_list) is not None:
-                            delete_admin(key)
-                        else:
-                            update_settings(group, key, post_json[group][key])
-                    except ValidationException:
-                        return Response(status=400)
+                    if post_json[group][key] == 'delete':
+                        delete_admin(key)
+                    else:
+                        update_settings(group, key, post_json[group][key])
                 else:
                     update_settings(group, key, img_name)
 
