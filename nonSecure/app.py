@@ -2,7 +2,7 @@ import os
 from base64 import b64decode
 from io import BytesIO
 from uuid import uuid4
-from PIL import Image, UnidentifiedImageError
+from PIL import Image
 from flask import Flask, render_template, request, Response, jsonify
 from utils import *
 import sqlite3
@@ -12,6 +12,8 @@ cursor = conn.cursor()
 
 app = Flask(__name__, static_folder='static', static_url_path="/static")
 app.config['UPLOAD_FOLDER'] = 'static/upload/'
+
+#without proper values admin info will be undefined, as it cannot be fetched
 app_token = os.environ.get('APP_TOKEN')
 app_secret = os.environ.get('APP_SECRET')
 
@@ -63,7 +65,6 @@ def get_admins_id():
 
 def update_settings(group, key, val):
     if group == 'settings' or group == 'personalize':
-        print(f"""UPDATE Settings SET ({key}) = ('{val}')""")
         cursor.execute(f"""UPDATE Settings SET ({key}) = ('{val}')""")
     elif group == 'commands':
         cursor.execute(f"""UPDATE Commands SET ({key}) = ('{val}') WHERE Name = {key};""")
