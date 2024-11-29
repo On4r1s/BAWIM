@@ -177,3 +177,7 @@ def get_img(path):
     except FileNotFoundError:
         return Response(status=404)
     return file
+
+
+if __name__ == "__main__":
+    app.run()
