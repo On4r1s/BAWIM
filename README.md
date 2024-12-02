@@ -1,4 +1,4 @@
-Wejść na stronę https://google-gruyere.appspot.com/ \
+Wejść na stronę https://google-gruyere.appspot.com/start \
 Aby móc tam coś robić trzeba stworzyć użytkownika i się zalogować.
 Jest to kiepsko zabezpieczona strona dobra do ćwiczeń.
 
