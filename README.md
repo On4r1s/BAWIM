@@ -1,8 +1,8 @@
 Wejść na stronę https://google-gruyere.appspot.com/start \
 Aby móc tam coś robić trzeba stworzyć użytkownika i się zalogować.
-Jest to kiepsko zabezpieczona strona dobra do ćwiczeń.
-Dodatkowo, pomocne mogą być linki:
-https://google-gruyere.appspot.com/code/
+Jest to kiepsko zabezpieczona strona dobra do ćwiczeń. \
+Dodatkowo, pomocne mogą być linki: \
+https://google-gruyere.appspot.com/code/ \
 https://google-gruyere.appspot.com
 
 # Zadanie 1.
