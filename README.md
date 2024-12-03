@@ -35,5 +35,7 @@ flask run w cmd w pycharmie\
 wyświetli się w konsoli na jakim adresie działa appka\
 
 instalator postmana: https://www.postman.com/downloads/
+Git nie pozwala na pliki .db więc macie link do malej bazy która proszę zastąpcie https://drive.google.com/file/d/1IBXkEdtDtL1ZgMDZDp7R_CeeO3gJgQAe/view?usp=sharing
+
 
 Hinty: spojrzeć na POST w app.py, struktura JSON - body
