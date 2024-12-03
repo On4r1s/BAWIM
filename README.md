@@ -1,3 +1,5 @@
+Link do prezentacji
+https://www.canva.com/design/DAGW85G_jFE/Ctm6ch3slmdJXaPwf3f2Cw/edit?utm_content=DAGW85G_jFE&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 Wejść na stronę https://google-gruyere.appspot.com/start \
 Aby móc tam coś robić trzeba stworzyć użytkownika i się zalogować.
 Jest to kiepsko zabezpieczona strona dobra do ćwiczeń. \
