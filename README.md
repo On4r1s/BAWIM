@@ -23,7 +23,8 @@ Jako rozwiązanie wyślij URL na który wysyłasz żądanie, metodę, jego treś
 
 Instalacja aplikacji:
 Pobrać folder nonSecure\
-Pobrać i wrzucić obok tego folderu Bawim.db\
+Pobrać i wrzucić do tego folderu database z poniższego linku (podmieńcie Bawim.db) \
+Git nie pozwala na pliki .db więc trzeba zastąpić istniejący plik tym tutaj: https://drive.google.com/file/d/1IBXkEdtDtL1ZgMDZDp7R_CeeO3gJgQAe/view?usp=sharing \
 Otworzyć projekt (folder nonSecure) w pycharmie\
 venv activate: wiersz poleceń jako administrator, uruchom z folderu z projektem venv\Scripts\activate\
 pip install flask, requests, pillow\
@@ -35,7 +36,5 @@ flask run w cmd w pycharmie\
 wyświetli się w konsoli na jakim adresie działa appka\
 
 instalator postmana: https://www.postman.com/downloads/
-Git nie pozwala na pliki .db więc macie link do malej bazy która proszę zastąpcie https://drive.google.com/file/d/1IBXkEdtDtL1ZgMDZDp7R_CeeO3gJgQAe/view?usp=sharing
-
 
 Hinty: spojrzeć na POST w app.py, struktura JSON - body
